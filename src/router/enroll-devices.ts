@@ -5,5 +5,5 @@ const baseurl = '/v1/customer/:c_id/service-location/:loc_id'
 export default (router: express.Router) => {
   router.post(`${baseurl}/device`, EnrollDevices.enrollDevice);
   router.get(`${baseurl}/devices`, EnrollDevices.getLocationDevices);
-  router.delete(`${baseurl}/device/:d_id`, EnrollDevices.deleteDevice);
+  router.put(`${baseurl}/device/:d_id`, EnrollDevices.updateDevice);
 };
