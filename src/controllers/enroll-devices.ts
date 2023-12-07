@@ -49,24 +49,30 @@ export const getLocationDevices = async (req: any, res: any) => {
   }
 };
 
-export const deleteDevice = async (req:any, res:any) => {
+export const updateDevice = async (req: any, res: any) => {
   try {
     const { d_id } = req.params;
+    const { column, newValue } = req.body;
 
-    const deleteQuery = `
-      DELETE FROM ${deviceTable}
-      WHERE d_id = $1
-      RETURNING d_id;
-    `;
-    const values = [d_id];
+    if(column !== "m_num")
+      return res.status(400).json({ error: 'Only model number is editable' });
+    const updateQuery = `UPDATE ${deviceTable} SET ${column} = $1 WHERE d_id = $2`;
+    const values = [newValue, d_id];
 
-    const deletedDevice = await pool.query(deleteQuery, values);
-
-    res.status(200).json({
-      message: `Device with ID ${deletedDevice.rows[0].d_id} deleted successfully`,
+    pool.query(updateQuery, values, (err: Error, result: any) => {
+      if (err) {
+        if (err.message.includes(`relation "${deviceTable}" does not exist`)) {
+          return res.status(400).json({ error: 'Table not found' });
+        }
+        throw err;
+      }
+      if(!result.rowCount)
+        res.status(400).json({ message: `Device Id ${d_id} does not exist` });
+      else
+        res.status(200).json({ message: 'Device updated successfully' });
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'An error occurred while deleting the device' });
+    return res.sendStatus(400);
   }
 };
