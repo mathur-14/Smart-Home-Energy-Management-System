@@ -14,7 +14,7 @@ export const createCustomer = async (req: any, res: any) => {
 
     const checkLoginQuery = `SELECT * FROM ${loginTable} WHERE username = $1 OR email = $2`;
     const loginValues = [c_id, email];
-    const existingUser = await pool.query(checkLoginQuery, loginValues);
+    const existingUser = await client.query(checkLoginQuery, loginValues);
 
     if (existingUser.rowCount) {
       return res.status(400).json({ error: "Username or email already exists"});
@@ -146,7 +146,8 @@ export const updateCustomer = async (req: any, res: any) => {
       }
       if(!result.rowCount)
         res.status(400).json({ message: 'User\'s username does not exist' });
-      res.status(200).json({ message: 'User\'s updated successfully' });
+      else
+        res.status(200).json({ message: 'User updated successfully' });
     });
   } catch (error) {
     console.error(error);

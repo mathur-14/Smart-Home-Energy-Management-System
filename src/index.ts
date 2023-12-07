@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
-import router from './router';
+import router from './router/index';
 
 const app = express()
 const port  = 3000
@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 const server = http.createServer(app);
 
-app.use('/api/v1/', router());
+app.use('/api/', router());
 
 server.listen(port, (() => {
     console.log(`app listening at http://localhost:${port}`)
