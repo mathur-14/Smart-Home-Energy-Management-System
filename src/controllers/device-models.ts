@@ -55,6 +55,46 @@ export const getAllDeviceModels = async (req: any, res: any) => {
   }
 };
 
+export const getAllDeviceTypes = async (req: any, res: any) => {
+  try {
+    const getQuery = `SELECT DISTINCT d_type FROM ${modelsTable}`;
+
+    pool.query(getQuery, (err: Error, result: any) => {
+      if (err) {
+        if (err.message.includes(`relation ${modelsTable} does not exist`)) {
+          return res.status(400).json({ error: 'Table not found' });
+        }
+        throw err;
+      }
+      res.status(200).json(result.rows);
+    });
+  } catch (error) {
+    console.error(error);
+    return res.sendStatus(400);
+  }
+};
+
+export const getDeviceTypeModels = async (req: any, res: any) => {
+  try {
+    const { device_type } = req.params;
+    const getQuery = `SELECT * FROM ${modelsTable} WHERE d_type = $1`;
+    const values = [device_type];
+
+    pool.query(getQuery, values, (err: Error, result: any) => {
+      if (err) {
+        if (err.message.includes(`relation ${modelsTable} does not exist`)) {
+          return res.status(400).json({ error: 'Table not found' });
+        }
+        throw err;
+      }
+      res.status(200).json(result.rows);
+    });
+  } catch (error) {
+    console.error(error);
+    return res.sendStatus(400);
+  }
+};
+
 export const updateDeviceModel = async (req: any, res: any) => {
   try {
     const { m_num } = req.params;
