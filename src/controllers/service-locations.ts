@@ -22,7 +22,7 @@ export const registerLocation = async (req: any, res: any) => {
     const values = [c_id, loc_id, loc_address, startDate, area_by_foot, beds, occupants, zipcode];
     const registeredLocation = await pool.query(insertQuery, values);
 
-    res.status(201).json({ message: 'Location registered successfully', location: registeredLocation.rows[0] });
+    res.status(200).json({ message: 'Location registered successfully', location: registeredLocation.rows[0] });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'An error occurred while registering the location.' });

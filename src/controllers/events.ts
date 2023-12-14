@@ -20,7 +20,7 @@ export const addEvent = async (req: any, res: any) => {
     const values = [d_id, e_label, eventDate, val];
     const addedEvent = await pool.query(insertQuery, values);
 
-    res.status(201).json({ message: 'Event notified successfully', event: addedEvent.rows[0] });
+    res.status(200).json({ message: 'Event notified successfully', event: addedEvent.rows[0] });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'An error occurred while notifying the device event.' });

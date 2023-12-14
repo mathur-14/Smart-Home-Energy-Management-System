@@ -21,7 +21,7 @@ export const enrollDevice = async (req: any, res: any) => {
     const values = [d_id, loc_id, m_num];
     const enrolledDevice = await pool.query(insertQuery, values);
 
-    res.status(201).json({ message: 'Device enrolled successfully', device: enrolledDevice.rows[0] });
+    res.status(200).json({ message: 'Device enrolled successfully', device: enrolledDevice.rows[0] });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'An error occurred while enrolling the device.' });

@@ -28,7 +28,7 @@ export const addDeviceModel = async (req: any, res: any) => {
       const insertModelValues = [m_num, m_name, d_type, props];
       const newModel = await pool.query(insertModelQuery, insertModelValues);
 
-      res.status(201).json({ message: 'Model created successfully', 'device-model': newModel.rows[0] });
+      res.status(200).json({ message: 'Model created successfully', 'device-model': newModel.rows[0] });
     }
   } catch (error) {
     console.error(error);
