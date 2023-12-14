@@ -47,7 +47,7 @@ export const createCustomer = async (req: any, res: any) => {
 
       await client.query('COMMIT');
 
-      res.status(201).json({ message: 'User created successfully', user: newCustomer.rows[0] });
+      res.status(200).json({ message: 'User created successfully', user: newCustomer.rows[0] });
     }
   } catch (error) {
     await client.query('ROLLBACK');
@@ -84,7 +84,7 @@ export const resetCustomerPassword = async (req: any, res: any) => {
     }
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.sendStatus(500).json({ error: 'An error occurred while resetting the password.' });;
   }
 }
 
@@ -103,7 +103,7 @@ export const getAllCustomers = async (req: any, res: any) => {
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.sendStatus(500).json({ error: 'An error occurred while fetching all users.' });;
   }
 };
 
@@ -121,11 +121,11 @@ export const getCustomer = async (req: any, res: any) => {
         }
         throw err;
       }
-      res.status(200).json(result.rows);
+      res.status(200).json(result.rows[0]);
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.sendStatus(500).json({ error: 'An error occurred while fetching the user.' });;
   }
 };
 
@@ -151,7 +151,7 @@ export const updateCustomer = async (req: any, res: any) => {
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.sendStatus(500).json({ error: 'An error occurred while updating the user.' });;
   }
 };
 
