@@ -68,6 +68,8 @@ export const resetCustomerPassword = async (req: any, res: any) => {
     const existingCustomer = await pool.query(getQuery, getValues);
     if(!existingCustomer.rowCount)
       res.status(400).json({ message: 'No such user exists'});
+    else if(!pwd || !confirm_pwd || pwd.trim() === '')
+      res.status(400).json({ message: 'Password can\'t be kept empty'})
     else if(pwd !== confirm_pwd)
       res.status(400).json({ message: 'Passwords don\'t match'})
     else if(existingCustomer.rows[0].pwd_hash == pwd)
