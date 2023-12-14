@@ -1,8 +1,9 @@
+import express from 'express';
 import { pool } from '../db';
 
 const eventsTable = "events";
 
-export const addEvent = async (req: any, res: any) => {
+export const addEvent = async (req: express.Request, res: express.Response) => {
   try {
     const { d_id } = req.params;
     const { e_label, val, eventDate } = req.body;
@@ -28,7 +29,7 @@ export const addEvent = async (req: any, res: any) => {
 };
 
 // total energy used and total price
-export const getLocationEnergyUsed = async (req: any, res: any) => {
+export const getLocationEnergyUsed = async (req: express.Request, res: express.Response) => {
   try {
     const { loc_id } = req.params;
     const { startTime, endTime } = req.body;
@@ -76,7 +77,7 @@ export const getLocationEnergyUsed = async (req: any, res: any) => {
   }
 };
 
-export const getCustomerAllLocationsEnergyUsed = async (req: any, res: any) => {
+export const getCustomerAllLocationsEnergyUsed = async (req: express.Request, res: express.Response) => {
   try {
     const { c_id } = req.params;
     const { startTime, endTime } = req.body;
@@ -124,7 +125,7 @@ export const getCustomerAllLocationsEnergyUsed = async (req: any, res: any) => {
   }
 };
 
-export const getCustomerAllDevicesEnergyUsed = async (req: any, res: any) => {
+export const getCustomerAllDevicesEnergyUsed = async (req: express.Request, res: express.Response) => {
   try {
     const { c_id } = req.params;
     const { startTime, endTime } = req.body;
@@ -172,7 +173,7 @@ export const getCustomerAllDevicesEnergyUsed = async (req: any, res: any) => {
   }
 };
 
-export const getDeviceTypeAverageMonthlyEnergyUsed = async (req: any, res: any) => {
+export const getDeviceTypeAverageMonthlyEnergyUsed = async (req: express.Request, res: express.Response) => {
   try {
     const endTime = new Date();
     const startTime = new Date(endTime.getTime() - 720 * 60 * 60 * 1000);

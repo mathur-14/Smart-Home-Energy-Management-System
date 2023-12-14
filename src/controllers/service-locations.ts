@@ -1,9 +1,10 @@
 import { pool } from '../db';
 import * as shortid from 'shortid';
+import express from 'express';
 
 const locationTable = "servicelocations";
 
-export const registerLocation = async (req: any, res: any) => {
+export const registerLocation = async (req: express.Request, res: express.Response) => {
   try {
     const { c_id } = req.params;
     const { loc_address, area_by_foot, beds, occupants, zipcode } = req.body;
@@ -29,7 +30,7 @@ export const registerLocation = async (req: any, res: any) => {
   }
 };
 
-export const getLocations = async (req: any, res: any) => {
+export const getLocations = async (req: express.Request, res: express.Response) => {
   try {
     const { c_id } = req.params;
     const getQuery = `SELECT * FROM ${locationTable} WHERE cid = $1`;
@@ -50,7 +51,7 @@ export const getLocations = async (req: any, res: any) => {
   }
 };
 
-export const updateLocation = async (req: any, res: any) => {
+export const updateLocation = async (req: express.Request, res: express.Response) => {
   try {
     const { loc_id } = req.params;
     const { column, newValue } = req.body;
@@ -76,7 +77,7 @@ export const updateLocation = async (req: any, res: any) => {
   }
 };
 
-export const deleteLocation = async (req:any, res:any) => {
+export const deleteLocation = async (req: express.Request, res: express.Response) => {
   try {
     const { c_id, loc_id } = req.params;
 
