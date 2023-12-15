@@ -6,7 +6,25 @@ Only 3 types for response status codes are returned for all API requests: 200 (s
 
 <details>
 
-### POST - /v1/customer
+### POST - /v1/customer/login
+
+Request Body:
+
+```json
+{
+    "email": "tc2323@nyu.edu",
+    "pwd": "password"
+}
+```
+
+Response:
+
+```json
+{ "message": "User logged in successfully" }
+```
+
+
+### POST - /v1/customer/register
 
 Request Body:
 
@@ -18,7 +36,7 @@ Request Body:
     "phn": "0987-654-321",
     "billing_address": "456 West St",
     "email": "js5678@nyu.edu",
-    "pwd_hash": "a8b9e38ca6947817904eab40547eaaecd7cfabb9166f9c32f48a5a67e5ace3d6"
+    "pwd": "password"
 }
 ```
 
@@ -100,7 +118,7 @@ Request Body:
 Response:
 
 ```json
-{ message: 'User updated successfully' }
+{ "message": "User updated successfully" }
 ```
 
 ### DELETE - /v1/customer/:c_id
@@ -123,15 +141,15 @@ Request Body:
 
 ```json
 {
-    "pwd": "a8b9e38ca6947817904eab40547eaaecd7cfabb9166f9c32f48a5a67e5ace3d6",
-    "confirm_pwd": "a8b9e38ca6947817904eab40547eaaecd7cfabb9166f9c32f48a5a67e5ace3d6"
+    "pwd": "password123",
+    "confirm_pwd": "password123"
 }
 ```
 
 Response:
 
 ```json
-{ message: 'User credentials updated successfully' }
+{ "message": "User credentials updated successfully" }
 ```
 
 </details>
@@ -393,7 +411,7 @@ None
 Response:
 
 ```json
-{ message: "Model with ID m_num deleted successfully"}
+{ "message": "Model with ID m_num deleted successfully"}
 ```
 
 </details>
@@ -464,7 +482,7 @@ Request Body:
 Response:
 
 ```json
-{ message: 'Device updated successfully' }
+{ "message": "Device updated successfully" }
 ```
 
 </details>

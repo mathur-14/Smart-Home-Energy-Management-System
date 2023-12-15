@@ -1,15 +1,54 @@
 import { pool } from '../db';
+import { random, authentication} from '../helper/index'
 import express from 'express';
 
 const custTable = "customers";
 const loginTable = "login";
 
+export const login = async (req: express.Request, res: express.Response) => {
+  try {
+    const { email, pwd } = req.body;
+
+    if (!email || !pwd) {
+      return res.sendStatus(400);
+    }
+
+    const checkLoginQuery = `SELECT * FROM ${loginTable} WHERE email = $1`;
+    const loginValues = [email];
+    const existingUser = await pool.query(checkLoginQuery, loginValues);
+
+    if (!existingUser.rowCount) {
+      return res.status(400).json({ error: "No user with such email exists"});
+    }
+    
+    const expectedHash = authentication(existingUser.rows[0].salt, pwd);
+
+    if (existingUser.rows[0].pwd_hash != expectedHash) {
+      return res.sendStatus(403);
+    }
+
+    const salt = random();
+    const sessionToken = authentication(salt, existingUser.rows[0].username.toString());
+
+    const updateQuery = `UPDATE ${loginTable} SET session_token = $1 WHERE email = $2`;
+    const updateValues = [sessionToken, email];
+    await pool.query(updateQuery, updateValues);
+
+    res.cookie('PDS-AUTH', sessionToken, { domain: 'localhost', path: '/' });
+
+    return res.status(200).json({message: 'User logged in successfully'});
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500).json({ error: 'An error occurred while logging in.' });
+  }
+};
+
 export const createCustomer = async (req: express.Request, res: express.Response) => {
   const client = await pool.connect();
   try {
-    const { c_id, first_name, last_name, phn, billing_address, email, pwd_hash } = req.body;
+    const { c_id, first_name, last_name, phn, billing_address, email, pwd } = req.body;
 
-    if (!c_id || !first_name || !last_name || !phn || !billing_address || !email || !pwd_hash) {
+    if (!c_id || !first_name || !last_name || !phn || !billing_address || !email || !pwd) {
       return res.status(400).json({ error: 'Please provide all required fields.' });
     }
 
@@ -21,6 +60,9 @@ export const createCustomer = async (req: express.Request, res: express.Response
       return res.status(400).json({ error: "Username or email already exists"});
     }
     else {
+      const salt = random();
+      const pwd_hash = authentication(salt, pwd)
+
       await client.query('BEGIN');
 
       const insertCustomerQuery = `
@@ -32,10 +74,10 @@ export const createCustomer = async (req: express.Request, res: express.Response
       const newCustomer = await client.query(insertCustomerQuery, insertCustomerValues);
 
       const insertloginQuery = `
-        INSERT INTO ${loginTable} (username, email, pwd_hash)
-        VALUES ($1, $2, $3)
+        INSERT INTO ${loginTable} (username, email, pwd_hash, salt)
+        VALUES ($1, $2, $3, $4)
       `;
-      const insertLoginValues = [c_id, email, pwd_hash];
+      const insertLoginValues = [c_id, email, pwd_hash, salt];
       await client.query(insertloginQuery, insertLoginValues, (err) => {
         if (err) {
           if (err.message.includes(`relation ${custTable} does not exist`)) {
@@ -77,8 +119,11 @@ export const resetCustomerPassword = async (req: express.Request, res: express.R
       res.status(400).json({ message: 'Your new password must be different from your current password'})
     else {
       const modifiedDate = new Date();
-      const updateQuery = `UPDATE ${loginTable} SET pwd_hash = $1, modified_at = $2 WHERE username = $3`;
-      const updateValues = [pwd, modifiedDate, c_id];
+      const salt = random();
+      const pwd_hash = authentication(salt, pwd)
+
+      const updateQuery = `UPDATE ${loginTable} SET pwd_hash = $1, modified_at = $2, salt = $3 WHERE username = $4`;
+      const updateValues = [pwd_hash, modifiedDate, salt, c_id];
       pool.query(updateQuery, updateValues, (err: Error, result: any) => {
         if (err)
           throw err;
