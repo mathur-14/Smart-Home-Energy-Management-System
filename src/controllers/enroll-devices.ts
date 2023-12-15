@@ -1,9 +1,10 @@
+import express from 'express';
 import { pool } from '../db';
 import * as shortid from 'shortid';
 
 const deviceTable = "enrolleddevices";
 
-export const enrollDevice = async (req: any, res: any) => {
+export const enrollDevice = async (req: express.Request, res: express.Response) => {
   try {
     const { loc_id } = req.params;
     const { m_num } = req.body;
@@ -28,7 +29,7 @@ export const enrollDevice = async (req: any, res: any) => {
   }
 };
 
-export const getLocationDevices = async (req: any, res: any) => {
+export const getLocationDevices = async (req: express.Request, res: express.Response) => {
   try {
     const { loc_id } = req.params;
     const getQuery = `SELECT * FROM ${deviceTable} WHERE loc_id = $1`;
@@ -49,7 +50,7 @@ export const getLocationDevices = async (req: any, res: any) => {
   }
 };
 
-export const updateDevice = async (req: any, res: any) => {
+export const updateDevice = async (req: express.Request, res: express.Response) => {
   try {
     const { d_id } = req.params;
     const { column, newValue } = req.body;

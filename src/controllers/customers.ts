@@ -1,9 +1,10 @@
 import { pool } from '../db';
+import express from 'express';
 
 const custTable = "customers";
 const loginTable = "login";
 
-export const createCustomer = async (req: any, res: any) => {
+export const createCustomer = async (req: express.Request, res: express.Response) => {
   const client = await pool.connect();
   try {
     const { c_id, first_name, last_name, phn, billing_address, email, pwd_hash } = req.body;
@@ -58,7 +59,7 @@ export const createCustomer = async (req: any, res: any) => {
   }
 };
 
-export const resetCustomerPassword = async (req: any, res: any) => {
+export const resetCustomerPassword = async (req: express.Request, res: express.Response) => {
   try {
     const { c_id } = req.params;
     const { pwd, confirm_pwd} = req.body;
@@ -90,7 +91,7 @@ export const resetCustomerPassword = async (req: any, res: any) => {
   }
 }
 
-export const getAllCustomers = async (req: any, res: any) => {
+export const getAllCustomers = async (req: express.Request, res: express.Response) => {
   try {
     const getQuery = `SELECT * FROM ${custTable}`;
 
@@ -109,7 +110,7 @@ export const getAllCustomers = async (req: any, res: any) => {
   }
 };
 
-export const getCustomer = async (req: any, res: any) => {
+export const getCustomer = async (req: express.Request, res: express.Response) => {
   try {
     const { c_id } = req.params;
 
@@ -131,7 +132,7 @@ export const getCustomer = async (req: any, res: any) => {
   }
 };
 
-export const updateCustomer = async (req: any, res: any) => {
+export const updateCustomer = async (req: express.Request, res: express.Response) => {
   try {
     const { c_id } = req.params;
     const { column, newValue } = req.body;
@@ -157,7 +158,7 @@ export const updateCustomer = async (req: any, res: any) => {
   }
 };
 
-export const deleteCustomer = async (req:any, res:any) => {
+export const deleteCustomer = async (req: express.Request, res: express.Response) => {
   try {
     const { c_id } = req.params;
 

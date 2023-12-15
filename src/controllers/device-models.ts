@@ -1,9 +1,10 @@
+import express from 'express';
 import { pool } from '../db';
 import * as shortid from 'shortid';
 
 const modelsTable = "models";
 
-export const addDeviceModel = async (req: any, res: any) => {
+export const addDeviceModel = async (req: express.Request, res: express.Response) => {
   try {
     const m_num = shortid.generate();
     const { m_name, d_type, props } = req.body;
@@ -36,7 +37,7 @@ export const addDeviceModel = async (req: any, res: any) => {
   }
 };
 
-export const getAllDeviceModels = async (req: any, res: any) => {
+export const getAllDeviceModels = async (req: express.Request, res: express.Response) => {
   try {
     const getQuery = `SELECT * FROM ${modelsTable}`;
 
@@ -55,7 +56,7 @@ export const getAllDeviceModels = async (req: any, res: any) => {
   }
 };
 
-export const getAllDeviceTypes = async (req: any, res: any) => {
+export const getAllDeviceTypes = async (req: express.Request, res: express.Response) => {
   try {
     const getQuery = `SELECT DISTINCT d_type FROM ${modelsTable}`;
 
@@ -74,7 +75,7 @@ export const getAllDeviceTypes = async (req: any, res: any) => {
   }
 };
 
-export const getDeviceTypeModels = async (req: any, res: any) => {
+export const getDeviceTypeModels = async (req: express.Request, res: express.Response) => {
   try {
     const { device_type } = req.params;
     const getQuery = `SELECT * FROM ${modelsTable} WHERE d_type = $1`;
@@ -95,7 +96,7 @@ export const getDeviceTypeModels = async (req: any, res: any) => {
   }
 };
 
-export const updateDeviceModel = async (req: any, res: any) => {
+export const updateDeviceModel = async (req: express.Request, res: express.Response) => {
   try {
     const { m_num } = req.params;
     const { column, newValue } = req.body;
@@ -121,7 +122,7 @@ export const updateDeviceModel = async (req: any, res: any) => {
   }
 };
 
-export const deleteDeviceModel = async (req:any, res:any) => {
+export const deleteDeviceModel = async (req: express.Request, res: express.Response) => {
   try {
     const { m_num } = req.params;
 

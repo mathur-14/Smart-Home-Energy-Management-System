@@ -1,8 +1,9 @@
+import express from 'express';
 import { pool } from '../db';
 
 const energyPriceTable = "ZipCodeEnergyPrices";
 
-export const addPrice = async (req: any, res: any) => {
+export const addPrice = async (req: express.Request, res: express.Response) => {
   try {
     // reason for taking timestamp from the request and not calculating it here is to avoid inconsistencies at the time of system crash. Assuming these requests are called via an event from thr energy dept.
     const { zipcode } = req.params;
@@ -26,7 +27,7 @@ export const addPrice = async (req: any, res: any) => {
   }
 };
 
-export const getPricesLastXhours = async (req: any, res: any) => {
+export const getPricesLastXhours = async (req: express.Request, res: express.Response) => {
   try {
     const { zipcode } = req.params;
     const { xHours } = req.body;
