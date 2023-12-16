@@ -4,12 +4,39 @@ import express from 'express';
 const custTable = "customers";
 const loginTable = "login";
 
+export const login = async (req: express.Request, res: express.Response) => {
+  try {
+    const { email, pwd } = req.body;
+
+    if (!email || !pwd) {
+      return res.sendStatus(400);
+    }
+
+    const checkLoginQuery = `SELECT * FROM ${loginTable} WHERE email = $1`;
+    const loginValues = [email];
+    const existingUser = await pool.query(checkLoginQuery, loginValues);
+
+    if (!existingUser.rowCount) {
+      return res.status(400).json({ error: "No user with such email exists"});
+    }
+    
+    if (existingUser.rows[0].pwd_hash != pwd) {
+      return res.sendStatus(400).json({message: "Incorrect password"});
+    }
+
+    return res.status(200).json({message: 'User logged in successfully', c_id: existingUser.rows[0].username});
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500).json({ error: 'An error occurred while logging in.' });
+  }
+};
+
 export const createCustomer = async (req: express.Request, res: express.Response) => {
   const client = await pool.connect();
   try {
-    const { c_id, first_name, last_name, phn, billing_address, email, pwd_hash } = req.body;
+    const { c_id, first_name, last_name, phn, billing_address, email, pwd } = req.body;
 
-    if (!c_id || !first_name || !last_name || !phn || !billing_address || !email || !pwd_hash) {
+    if (!c_id || !first_name || !last_name || !phn || !billing_address || !email || !pwd) {
       return res.status(400).json({ error: 'Please provide all required fields.' });
     }
 
@@ -35,7 +62,7 @@ export const createCustomer = async (req: express.Request, res: express.Response
         INSERT INTO ${loginTable} (username, email, pwd_hash)
         VALUES ($1, $2, $3)
       `;
-      const insertLoginValues = [c_id, email, pwd_hash];
+      const insertLoginValues = [c_id, email, pwd];
       await client.query(insertloginQuery, insertLoginValues, (err) => {
         if (err) {
           if (err.message.includes(`relation ${custTable} does not exist`)) {
