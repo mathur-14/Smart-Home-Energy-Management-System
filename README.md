@@ -508,14 +508,12 @@ Response:
 { "message": "Energy Price added successfully" }
 ```
 
-### GET - /v1/zipcode/:zipcode/prices (prices are added for each zipcode every hour)
+### GET - /v1/zipcode/:zipcode/prices/:xHours (prices are added for each zipcode every hour)
 
 Request Body:
 
 ```json
-{
-    "xHours": 70
-}
+None
 ```
 
 Response:
@@ -580,7 +578,7 @@ Response:
 }
 ```
 
-### GET - /v1/customer/:c_id/service-location/:loc_id/events/energy-used (get the total energy consumed and price with all devices for a location)
+### POST - /v1/customer/:c_id/service-location/:loc_id/events/energy-used (get the total energy consumed and price with all devices for a location)
 
 Request Body:
 
@@ -613,7 +611,7 @@ Response:
 }
 ```
 
-### GET - /v1/customer/:c_id/location-events/energy-used (get the total energy consumed and price for all locations for a customer)
+### POST - /v1/customer/:c_id/location-events/energy-used (get the total energy consumed and price for all locations for a customer)
 
 Request Body:
 
@@ -646,7 +644,7 @@ Response:
 }
 ```
 
-### GET - /v1/customer/:c_id/device-events/energy-used (get the total energy consumed and price for all devices for a customer)
+### POST - /v1/customer/:c_id/device-events/energy-used (get the total energy consumed and price for all devices for a customer)
 
 ~ NOTE: Devices with more than 0 energy consumed is returned. If you need to display all devices, compare with getAllDevice for a customer, the devices  missing from the list can have value 0. ~
 
