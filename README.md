@@ -438,14 +438,20 @@ Response:
 ```json
 [
     {
-        "d_id": "aSJb-7i4-",
+        "d_id": "9cafd4_Aj",
         "loc_id": "78wXrDAWb",
-        "m_num": "yIpxkaf-q"
+        "m_num": "D0lKujS4q",
+        "m_name": "godrej xl",
+        "d_type": "Refrigirator",
+        "m_props": "spacious"
     },
     {
         "d_id": "t6tIblhB3",
         "loc_id": "78wXrDAWb",
-        "m_num": "yIpxkaf-q"
+        "m_num": "yIpxkaf-q",
+        "m_name": "godrej xxl",
+        "d_type": "Refrigirator",
+        "m_props": "extra spacious"
     }
 ]
 ```
@@ -581,11 +587,15 @@ Response:
     "devices": [
         {
             "deviceid": "aSJb-7i4-",
+            "m_num": "yIpxkaf-q",
+            "m_name": "godrej xxl",
             "totalenergycost": 1.4000000000000001,
             "totalenergyusage": 28
         },
         {
             "deviceid": "t6tIblhB3",
+            "m_num": "yIpxkaf-q",
+            "m_name": "godrej xxl",
             "totalenergycost": 2.2,
             "totalenergyusage": 18
         }
@@ -648,18 +658,24 @@ Response:
     "devices": [
         {
             "d_id": "aSJb-7i4-",
+            "m_num": "yIpxkaf-q",
+            "m_name": "godrej xxl",
             "d_type": "Refrigirator",
             "totalenergyusage": 28,
             "averageenergyusage": 14
         },
         {
             "d_id": "cW6_WKzmD",
+            "m_num": "yIpxkaf-q",
+            "m_name": "godrej xxl",
             "d_type": "Refrigirator",
             "totalenergyusage": 24,
             "averageenergyusage": 12
         },
         {
             "d_id": "t6tIblhB3",
+            "m_num": "yIpxkaf-q",
+            "m_name": "godrej xxl",
             "d_type": "Refrigirator",
             "totalenergyusage": 18,
             "averageenergyusage": 6
