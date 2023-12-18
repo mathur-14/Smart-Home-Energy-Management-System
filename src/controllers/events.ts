@@ -40,17 +40,20 @@ export const getLocationEnergyUsed = async (req: express.Request, res: express.R
 
     const getQuery = `
     SELECT ED.d_id AS DeviceId,
+      M.m_num,
+      M.m_name,
       SUM(COALESCE(E.val * ZEP.cost_per_kwh, 0)) AS TotalEnergyCost,
       SUM(E.val) AS TotalEnergyUsage
     FROM ServiceLocations SL
     JOIN EnrolledDevices ED ON SL.loc_id = ED.loc_id
     JOIN Events E ON ED.d_id = E.d_id
     JOIN ZipCodeEnergyPrices ZEP ON SL.zipcode = ZEP.zipcode
+    JOIN Models M ON M.m_num = ED.m_num
       AND E.timestamp >= ZEP.timestamp
       AND E.timestamp < ZEP.timestamp + INTERVAL '1 hours'
     WHERE E.timestamp >= $1
       AND E.timestamp < $2 AND E.e_label = 'energy use' AND SL.loc_id = $3
-    GROUP BY ED.d_id;
+    GROUP BY ED.d_id, M.m_num, M.m_name;
     `;
     const values = [startTime, endTime, loc_id];
 
@@ -137,18 +140,18 @@ export const getCustomerAllDevicesEnergyUsed = async (req: express.Request, res:
     const getQuery = `
     WITH 
     timeFrameEvents AS (
-      SELECT d.d_id, m.d_type, d.loc_id
+      SELECT d.d_id, m.m_num, m.m_name, m.d_type, d.loc_id
       FROM EnrolledDevices d
       JOIN Models m ON m.m_num = d.m_num
       JOIN ServiceLocations s ON d.loc_id = s.loc_id
       WHERE s.cid = $1
     )
-    SELECT ed.d_id, ed.d_type, SUM(de.val) AS TotalEnergyUsage, AVG(de.val) AS AverageEnergyUsage
+    SELECT ed.d_id, ed.m_num, ed.m_name, ed.d_type, SUM(de.val) AS TotalEnergyUsage, AVG(de.val) AS AverageEnergyUsage
     FROM timeFrameEvents ed
     JOIN Events de ON ed.d_id = de.d_id
     WHERE de.timestamp >= $2 AND de.timestamp < $3
     AND de.e_label = 'energy use'
-    GROUP BY ed.d_id, ed.d_type;
+    GROUP BY ed.d_id, ed.d_type, ed.m_num, ed.m_name;
     `;
     const values = [c_id, startTime, endTime];
 

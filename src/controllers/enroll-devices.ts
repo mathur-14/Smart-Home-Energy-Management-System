@@ -32,7 +32,11 @@ export const enrollDevice = async (req: express.Request, res: express.Response) 
 export const getLocationDevices = async (req: express.Request, res: express.Response) => {
   try {
     const { loc_id } = req.params;
-    const getQuery = `SELECT * FROM ${deviceTable} WHERE loc_id = $1`;
+    const getQuery = `
+      SELECT * 
+      FROM ${deviceTable} ED
+      JOIN Models M ON M.m_num = ED.m_num
+      WHERE ED.loc_id = $1`;
     const values = [loc_id];
 
     pool.query(getQuery, values, (err: Error, result: any) => {
