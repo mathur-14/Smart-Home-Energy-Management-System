@@ -684,7 +684,7 @@ Response:
 }
 ```
 
-### GET - /v1/device-events/energy-used/avg (get the avg energy consumed per 5 min)
+### POST - /v1/device-events/energy-used/avg (get the avg energy consumed per 5 min)
 
 Request Body:
 

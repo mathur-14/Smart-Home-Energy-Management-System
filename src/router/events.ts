@@ -6,5 +6,5 @@ export default (router: express.Router) => {
   router.post(`/v1/customer/:c_id/service-location/:loc_id/events/energy-used`, Events.getLocationEnergyUsed);
   router.post(`/v1/customer/:c_id/location-events/energy-used`, Events.getCustomerAllLocationsEnergyUsed);
   router.post(`/v1/customer/:c_id/device-events/energy-used`, Events.getCustomerAllDevicesEnergyUsed);
-  router.get(`/v1/device-events/energy-used/avg`, Events.getDeviceTypeAverageMonthlyEnergyUsed);
+  router.post(`/v1/device-events/energy-used/avg`, Events.getDeviceTypeAverageMonthlyEnergyUsed);
 };
