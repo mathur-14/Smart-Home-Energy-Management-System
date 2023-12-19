@@ -183,12 +183,12 @@ export const getDeviceTypeAverageMonthlyEnergyUsed = async (req: express.Request
 
     const getQuery = `
     SELECT M.d_type AS DeviceType,
-    COALESCE(AVG(E.val), 0) AS AvgMonthlyEnergyConsumption
+    AVG(E.val) AS AvgMonthlyEnergyConsumption
     FROM Models M
-    LEFT JOIN EnrolledDevices ED ON M.m_num = ED.m_num
-    LEFT JOIN Events E ON ED.d_id = E.d_id
-      AND E.timestamp >= $1 AND E.timestamp < $2
-      AND E.e_label = 'energy use'
+    JOIN EnrolledDevices ED ON M.m_num = ED.m_num
+    JOIN Events E ON ED.d_id = E.d_id
+    WHERE E.timestamp >= $1 AND E.timestamp < $2
+    AND E.e_label = 'energy use'
     GROUP BY M.d_type;
     `;
     const values = [startTime, endTime];
