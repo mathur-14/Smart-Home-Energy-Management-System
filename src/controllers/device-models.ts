@@ -112,7 +112,7 @@ export const updateDeviceModel = async (req: express.Request, res: express.Respo
         throw err;
       }
       if(!result.rowCount)
-        res.status(400).json({ message: 'Model number does not exist' });
+        res.status(400).json({ error: 'Model number does not exist' });
       else
         res.status(200).json({ message: 'Model updated successfully' });
     });

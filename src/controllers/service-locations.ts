@@ -67,7 +67,7 @@ export const updateLocation = async (req: express.Request, res: express.Response
         throw err;
       }
       if(!result.rowCount)
-        res.status(400).json({ message: `Location Id ${loc_id} does not exist` });
+        res.status(400).json({ error: `Location Id ${loc_id} does not exist` });
       else
         res.status(200).json({ message: 'Location updated successfully' });
     });

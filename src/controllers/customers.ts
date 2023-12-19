@@ -21,7 +21,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     }
     
     if (existingUser.rows[0].pwd_hash != pwd) {
-      return res.sendStatus(400).json({message: "Incorrect password"});
+      return res.sendStatus(400).json({error: "Incorrect password"});
     }
 
     return res.status(200).json({message: 'User logged in successfully', c_id: existingUser.rows[0].username});
@@ -95,13 +95,13 @@ export const resetCustomerPassword = async (req: express.Request, res: express.R
     const getValues = [c_id];
     const existingCustomer = await pool.query(getQuery, getValues);
     if(!existingCustomer.rowCount)
-      res.status(400).json({ message: 'No such user exists'});
+      res.status(400).json({ error: 'No such user exists'});
     else if(!pwd || !confirm_pwd || pwd.trim() === '')
-      res.status(400).json({ message: 'Password can\'t be kept empty'})
+      res.status(400).json({ error: 'Password can\'t be kept empty'})
     else if(pwd !== confirm_pwd)
-      res.status(400).json({ message: 'Passwords don\'t match'})
+      res.status(400).json({ error: 'Passwords don\'t match'})
     else if(existingCustomer.rows[0].pwd_hash == pwd)
-      res.status(400).json({ message: 'Your new password must be different from your current password'})
+      res.status(400).json({ error: 'Your new password must be different from your current password'})
     else {
       const modifiedDate = new Date();
       const updateQuery = `UPDATE ${loginTable} SET pwd_hash = $1, modified_at = $2 WHERE username = $3`;
@@ -175,7 +175,7 @@ export const updateCustomer = async (req: express.Request, res: express.Response
         throw err;
       }
       if(!result.rowCount)
-        res.status(400).json({ message: 'User\'s username does not exist' });
+        res.status(400).json({ error: 'User\'s username does not exist' });
       else
         res.status(200).json({ message: 'User updated successfully' });
     });
