@@ -458,12 +458,16 @@ Response:
     {
         "d_id": "aSJb-7i4-",
         "loc_id": "78wXrDAWb",
-        "m_num": "yIpxkaf-q"
+        "m_num": "yIpxkaf-q",
+        "m_name": "godrej xl",
+        "d_type": "Refrigirator"
     },
     {
         "d_id": "t6tIblhB3",
         "loc_id": "78wXrDAWb",
-        "m_num": "yIpxkaf-q"
+        "m_num": "yIpxkaf-q",
+        "m_name": "godrej xl",
+        "d_type": "Refrigirator"
     }
 ]
 ```
@@ -508,14 +512,12 @@ Response:
 { "message": "Energy Price added successfully" }
 ```
 
-### GET - /v1/zipcode/:zipcode/prices (prices are added for each zipcode every hour)
+### GET - /v1/zipcode/:zipcode/prices/xHours (prices are added for each zipcode every hour)
 
 Request Body:
 
 ```json
-{
-    "xHours": 70
-}
+None
 ```
 
 Response:
@@ -580,7 +582,7 @@ Response:
 }
 ```
 
-### GET - /v1/customer/:c_id/service-location/:loc_id/events/energy-used (get the total energy consumed and price with all devices for a location)
+### POST - /v1/customer/:c_id/service-location/:loc_id/events/energy-used (get the total energy consumed and price with all devices for a location)
 
 Request Body:
 
@@ -613,7 +615,7 @@ Response:
 }
 ```
 
-### GET - /v1/customer/:c_id/location-events/energy-used (get the total energy consumed and price for all locations for a customer)
+### POST - /v1/customer/:c_id/location-events/energy-used (get the total energy consumed and price for all locations for a customer)
 
 Request Body:
 
@@ -646,7 +648,7 @@ Response:
 }
 ```
 
-### GET - /v1/customer/:c_id/device-events/energy-used (get the total energy consumed and price for all devices for a customer)
+### POST - /v1/customer/:c_id/device-events/energy-used (get the total energy consumed and price for all devices for a customer)
 
 ~ NOTE: Devices with more than 0 energy consumed is returned. If you need to display all devices, compare with getAllDevice for a customer, the devices  missing from the list can have value 0. ~
 
@@ -669,18 +671,24 @@ Response:
         {
             "d_id": "aSJb-7i4-",
             "d_type": "Refrigirator",
+            "m_num": "yIpxkaf-q",
+            "m_name": "godrej xxl",
             "totalenergyusage": 28,
             "averageenergyusage": 14
         },
         {
             "d_id": "cW6_WKzmD",
             "d_type": "Refrigirator",
+            "m_num": "yIpxkaf-q",
+            "m_name": "godrej xxl",
             "totalenergyusage": 24,
             "averageenergyusage": 12
         },
         {
             "d_id": "t6tIblhB3",
             "d_type": "Refrigirator",
+            "m_num": "yIpxkaf-q",
+            "m_name": "godrej xxl",
             "totalenergyusage": 18,
             "averageenergyusage": 6
         }
@@ -688,7 +696,7 @@ Response:
 }
 ```
 
-### GET - /v1/device-events/energy-used/avg (get the avg energy consumed per 5 min)
+### POST - /v1/device-events/energy-used/avg (get the avg energy consumed per 5 min)
 
 Request Body:
 

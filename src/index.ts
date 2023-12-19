@@ -5,7 +5,6 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
 import router from './router/index';
-import * as jwt from 'jsonwebtoken';
 
 const app = express()
 const port  = 3000

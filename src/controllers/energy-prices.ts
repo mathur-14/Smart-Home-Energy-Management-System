@@ -29,15 +29,14 @@ export const addPrice = async (req: express.Request, res: express.Response) => {
 
 export const getPricesLastXhours = async (req: express.Request, res: express.Response) => {
   try {
-    const { zipcode } = req.params;
-    const { xHours } = req.body;
+    const { zipcode, xHours } = req.params;
 
-    if (!xHours || isNaN(xHours)) {
+    if (!xHours) {
       return res.status(400).json({ error: 'Please provide a valid value for xHours.' });
     }
 
     const currentTime = new Date();
-    const startTime = new Date(currentTime.getTime() - xHours * 60 * 60 * 1000);
+    const startTime = new Date(currentTime.getTime() - parseInt(xHours) * 60 * 60 * 1000);
 
     const query = `
       SELECT timestamp, cost_per_kwh
