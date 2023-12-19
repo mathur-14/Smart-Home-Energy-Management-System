@@ -36,7 +36,7 @@ export const login = async (req: express.Request, res: express.Response) => {
 
     res.cookie('PDS-AUTH', sessionToken, { domain: 'localhost', path: '/' });
 
-    return res.status(200).json({message: 'User logged in successfully'});
+    return res.status(200).json({message: 'User logged in successfully', c_id: existingUser.rows[0].username});
   } catch (error) {
     console.log(error);
     return res.sendStatus(500).json({ error: 'An error occurred while logging in.' });
