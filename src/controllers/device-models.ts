@@ -52,7 +52,7 @@ export const getAllDeviceModels = async (req: express.Request, res: express.Resp
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 };
 
@@ -71,7 +71,7 @@ export const getAllDeviceTypes = async (req: express.Request, res: express.Respo
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 };
 
@@ -92,7 +92,7 @@ export const getDeviceTypeModels = async (req: express.Request, res: express.Res
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 };
 
@@ -118,7 +118,7 @@ export const updateDeviceModel = async (req: express.Request, res: express.Respo
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 };
 
