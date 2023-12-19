@@ -52,6 +52,16 @@ export const createCustomer = async (req: express.Request, res: express.Response
       return res.status(400).json({ error: 'Please provide all required fields.' });
     }
 
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phn)) {
+      return res.status(400).json({ error: 'Invalid phone number format.' });
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format.' });
+    }
+
     const checkLoginQuery = `SELECT * FROM ${loginTable} WHERE username = $1 OR email = $2`;
     const loginValues = [c_id, email];
     const existingUser = await client.query(checkLoginQuery, loginValues);
@@ -110,13 +120,13 @@ export const resetCustomerPassword = async (req: express.Request, res: express.R
     const getValues = [c_id];
     const existingCustomer = await pool.query(getQuery, getValues);
     if(!existingCustomer.rowCount)
-      res.status(400).json({ message: 'No such user exists'});
+      res.status(400).json({ error: 'No such user exists'});
     else if(!pwd || !confirm_pwd || pwd.trim() === '')
-      res.status(400).json({ message: 'Password can\'t be kept empty'})
+      res.status(400).json({ error: 'Password can\'t be kept empty'})
     else if(pwd !== confirm_pwd)
-      res.status(400).json({ message: 'Passwords don\'t match'})
+      res.status(400).json({ error: 'Passwords don\'t match'})
     else if(existingCustomer.rows[0].pwd_hash == pwd)
-      res.status(400).json({ message: 'Your new password must be different from your current password'})
+      res.status(400).json({ error: 'Your new password must be different from your current password'})
     else {
       const modifiedDate = new Date();
       const salt = random();
@@ -193,7 +203,7 @@ export const updateCustomer = async (req: express.Request, res: express.Response
         throw err;
       }
       if(!result.rowCount)
-        res.status(400).json({ message: 'User\'s username does not exist' });
+        res.status(400).json({ error: 'User\'s username does not exist' });
       else
         res.status(200).json({ message: 'User updated successfully' });
     });

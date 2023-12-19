@@ -72,7 +72,7 @@ export const updateDevice = async (req: express.Request, res: express.Response) 
         throw err;
       }
       if(!result.rowCount)
-        res.status(400).json({ message: `Device Id ${d_id} does not exist` });
+        res.status(400).json({ error: `Device Id ${d_id} does not exist` });
       else
         res.status(200).json({ message: 'Device updated successfully' });
     });
