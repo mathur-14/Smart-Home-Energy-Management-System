@@ -47,7 +47,7 @@ export const getLocations = async (req: express.Request, res: express.Response) 
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 };
 
@@ -73,7 +73,7 @@ export const updateLocation = async (req: express.Request, res: express.Response
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 };
 

@@ -9,7 +9,7 @@ export const isAuthenticated = async (req: express.Request, res: express.Respons
     const sessionToken = req.cookies['PDS-AUTH'];
 
     if (!sessionToken) {
-      return res.sendStatus(403);
+      return res.status(403);
     }
 
     const checkLoginQuery = `SELECT * FROM ${loginTable} WHERE session_token = $1`;
@@ -17,7 +17,7 @@ export const isAuthenticated = async (req: express.Request, res: express.Respons
     const existingUser = await pool.query(checkLoginQuery, loginValues);
 
     if (!existingUser.rowCount) {
-      return res.sendStatus(403);
+      return res.status(403);
     }
 
     merge(req, { identity: existingUser.rows[0].username });
@@ -25,7 +25,7 @@ export const isAuthenticated = async (req: express.Request, res: express.Respons
     return next();
   } catch (error) {
     console.log(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 }
 
@@ -35,15 +35,15 @@ export const isOwner = async (req: express.Request, res: express.Response, next:
     const currentUserId = get(req, 'identity') as unknown as string;
 
     if (!currentUserId) {
-      return res.sendStatus(400);
+      return res.status(400);
     }
     if (currentUserId.toString() !== ownerId) {
-      return res.sendStatus(403);
+      return res.status(403);
     }
 
     next();
   } catch (error) {
     console.log(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 }

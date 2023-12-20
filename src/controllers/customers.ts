@@ -10,7 +10,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     const { email, pwd } = req.body;
 
     if (!email || !pwd) {
-      return res.sendStatus(400);
+      return res.status(400);
     }
 
     const checkLoginQuery = `SELECT * FROM ${loginTable} WHERE email = $1`;
@@ -24,7 +24,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     const expectedHash = authentication(existingUser.rows[0].salt, pwd);
 
     if (existingUser.rows[0].pwd_hash != expectedHash) {
-      return res.sendStatus(403);
+      return res.status(403);
     }
 
     const salt = random();
@@ -39,7 +39,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     return res.status(200).json({message: 'User logged in successfully'});
   } catch (error) {
     console.log(error);
-    return res.sendStatus(500).json({ error: 'An error occurred while logging in.' });
+    return res.status(500).json({ error: 'An error occurred while logging in.' });
   }
 };
 
@@ -142,7 +142,7 @@ export const resetCustomerPassword = async (req: express.Request, res: express.R
     }
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500).json({ error: 'An error occurred while resetting the password.' });;
+    return res.status(500).json({ error: 'An error occurred while resetting the password.' });;
   }
 }
 
@@ -161,7 +161,7 @@ export const getAllCustomers = async (req: express.Request, res: express.Respons
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500).json({ error: 'An error occurred while fetching all users.' });;
+    return res.status(500).json({ error: 'An error occurred while fetching all users.' });;
   }
 };
 
@@ -183,7 +183,7 @@ export const getCustomer = async (req: express.Request, res: express.Response) =
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500).json({ error: 'An error occurred while fetching the user.' });;
+    return res.status(500).json({ error: 'An error occurred while fetching the user.' });;
   }
 };
 
@@ -209,7 +209,7 @@ export const updateCustomer = async (req: express.Request, res: express.Response
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500).json({ error: 'An error occurred while updating the user.' });;
+    return res.status(500).json({ error: 'An error occurred while updating the user.' });;
   }
 };
 

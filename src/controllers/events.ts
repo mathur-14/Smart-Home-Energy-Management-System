@@ -76,7 +76,7 @@ export const getLocationEnergyUsed = async (req: express.Request, res: express.R
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500);
+    return res.status(500);
   }
 };
 
@@ -124,7 +124,7 @@ export const getCustomerAllLocationsEnergyUsed = async (req: express.Request, re
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500);
+    return res.status(500);
   }
 };
 
@@ -172,7 +172,7 @@ export const getCustomerAllDevicesEnergyUsed = async (req: express.Request, res:
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500);
+    return res.status(500);
   }
 };
 
@@ -204,6 +204,6 @@ export const getDeviceTypeAverageMonthlyEnergyUsed = async (req: express.Request
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(500);
+    return res.status(500);
   }
 };

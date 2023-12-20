@@ -50,7 +50,7 @@ export const getLocationDevices = async (req: express.Request, res: express.Resp
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 };
 
@@ -78,6 +78,6 @@ export const updateDevice = async (req: express.Request, res: express.Response) 
     });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 };
