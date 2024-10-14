@@ -1,3 +1,7 @@
+## About the project:
+
+Developed web app, leveraging microservices architecture, enabling homeowners to monitor historical energy usage, manage devices, and analyze data for informed energy-saving decisions. Applied robust security measures including authentication middleware and CORS for secure user interactions. Technologies incorporated - Flutter, Nodejs, Express.js, TypeScript, PostgreSQL.
+
 base URL: http://localhost:3000/api
 
 Only 3 types for response status codes are returned for all API requests: 200 (success), 400 (Bad request), 500 (Server error)
